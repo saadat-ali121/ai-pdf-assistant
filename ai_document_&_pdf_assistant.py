@@ -1,6 +1,6 @@
 
 import streamlit as st
-from google import genai
+import google.generativeai as genai
 import pypdf
 
 st.set_page_config(page_title="AI Document Assistant", layout="wide")
@@ -31,12 +31,13 @@ if uploaded_file is not None:
             st.error("Please enter your Gemini API Key in the sidebar.")
         else:
             try:
-                client = genai.Client(api_key=api_key.strip())
+                genai.configure(api_key=api_key.strip()
                 prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
 
                 with st.spinner("Analyzing document..."):
                     # Updated to gemini-3.6-flash as requested by the API
-                    response = client.models.generate_content(
+                    model = genai.GenerativeModel('gemini-1.5-flash')
+response = model.generate_content(prompt)
                         model='gemini-3.6-flash',
                         contents=prompt,
                     )
