@@ -31,18 +31,13 @@ if uploaded_file is not None:
             st.error("Please enter your Gemini API Key in the sidebar.")
         else:
             try:
-                genai.configure(api_key=api_key.strip()
+                genai.configure(api_key=api_key.strip())
                 prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
 
                 with st.spinner("Analyzing document..."):
-                    # Updated to gemini-3.6-flash as requested by the API
                     model = genai.GenerativeModel('gemini-1.5-flash')
-response = model.generate_content(prompt)
-                        model='gemini-3.6-flash',
-                        contents=prompt,
-                    )
+                    response = model.generate_content(prompt)
                     st.write("### Answer:")
                     st.write(response.text)
             except Exception as e:
                 st.error(f"Error: {e}")
-                
