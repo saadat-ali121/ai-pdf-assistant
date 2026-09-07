@@ -36,7 +36,7 @@ if uploaded_file is not None:
 
                 with st.spinner("Analyzing document..."):
            # Permanent Fallback Strategy for Gemini Models
-            available_models = [
+                 available_models = [
                 'gemini-1.5-flash',
                 'gemini-1.5-pro',
                 'gemini-2.0-flash'
