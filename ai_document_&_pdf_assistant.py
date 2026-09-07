@@ -35,9 +35,28 @@ if uploaded_file is not None:
                 prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
 
                 with st.spinner("Analyzing document..."):
-                  model = genai.GenerativeModel('gemini-3.6-flash')
-                  response = model.generate_content(prompt)
-                  st.write("### Answer:")
-                  st.write(response.text)
-            except Exception as e:
-                  st.error(f"Error: {e}")
+           # Permanent Fallback Strategy for Gemini Models
+            available_models = [
+                'gemini-1.5-flash',
+                'gemini-1.5-pro',
+                'gemini-2.0-flash'
+            ]
+            
+            response = None
+            last_error = None
+
+            for model_name in available_models:
+                try:
+                    model = genai.GenerativeModel(model_name)
+                    response = model.generate_content(prompt)
+                    if response:
+                        break  # Agar response mil jaye toh loop ruk jaye ga
+                except Exception as err:
+                    last_error = err
+                    continue  # Agar ek model fail ho toh agla try kare ga
+
+            if response:
+                st.write("### Answer:")
+                st.write(response.text)
+            else:
+                st.error(f"Models temporarily unavailable: {last_error}")
