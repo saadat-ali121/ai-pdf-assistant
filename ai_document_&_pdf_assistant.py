@@ -35,7 +35,7 @@ if uploaded_file is not None:
                 prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
 
                 with st.spinner("Analyzing document..."):
-                    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+                    model = genai.GenerativeModel('gemini-1.5-flash')
                     response = model.generate_content(prompt)
                     st.write("### Answer:")
                     st.write(response.text)
