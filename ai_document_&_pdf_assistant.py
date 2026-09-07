@@ -35,12 +35,14 @@ if uploaded_file is not None:
                 prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
 
                 with st.spinner("Analyzing document..."):
-           # Permanent Fallback Strategy for Gemini Models
-                 available_models = [
+           available_models = [
                 'gemini-1.5-flash',
                 'gemini-1.5-pro',
                 'gemini-2.0-flash'
             ]
+
+            response = None
+            last_error = None
             
             response = None
             last_error = None
