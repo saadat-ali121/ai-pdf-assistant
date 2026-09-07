@@ -36,7 +36,7 @@ if uploaded_file is not None:
 
                 with st.spinner("Analyzing document..."):
                   model = genai.GenerativeModel('gemini-3.6-flash')
-                    response = model.generate_content(prompt)
+                  response = model.generate_content(prompt)
                     st.write("### Answer:")
                     st.write(response.text)
             except Exception as e:
