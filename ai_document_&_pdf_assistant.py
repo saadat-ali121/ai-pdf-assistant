@@ -27,28 +27,33 @@ if uploaded_file is not None:
     user_query = st.text_input("Ask a question about your PDF:")
 
     if st.button("Get Answer"):
-        if not api_key:
-            st.error("Please enter your Gemini API Key in the sidebar.")
-        else:
-            try:
-                genai.configure(api_key=api_key.strip())
-                prompt = f"Context from PDF document:\n{text}\n\nQuestion: {user_query}\nAnswer:"
+       
+             if st.button("Submit & Process"):
+            with st.spinner("Processing..."):
+                available_models = [
+                    'gemini-1.5-flash',
+                    'gemini-1.5-pro',
+                    'gemini-2.0-flash'
+                ]
 
-                with st.spinner("Analyzing document..."):
-           available_models = [
-                'gemini-1.5-flash',
-                'gemini-1.5-pro',
-                'gemini-2.0-flash'
-            ]
+                response = None
+                last_error = None
 
-            response = None
-            last_error = None
-            
-            response = None
-            last_error = None
+                for model_name in available_models:
+                    try:
+                        model = genai.GenerativeModel(model_name)
+                        response = model.generate_content(prompt)
+                        if response:
+                            break
+                    except Exception as err:
+                        last_error = err
+                        continue
 
-            for model_name in available_models:
-                try:
+                if response:
+                    st.write("### Answer:")
+                    st.write(response.text)
+                else:
+                    st.error(f"Models temporarily unavailable: {last_error}")   try:
                     model = genai.GenerativeModel(model_name)
                     response = model.generate_content(prompt)
                     if response:
