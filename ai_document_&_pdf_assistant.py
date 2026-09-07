@@ -29,7 +29,7 @@ if uploaded_file is not None:
     if st.button("Get Answer"):
        
              if st.button("Submit & Process"):
-            with st.spinner("Processing..."):
+            with st.spinner("Processing...")
                 available_models = [
                     'gemini-1.5-flash',
                     'gemini-1.5-pro',
