@@ -25,45 +25,30 @@ if uploaded_file is not None:
     st.success(f"PDF uploaded successfully! Total pages: {len(pdf_reader.pages)}")
 
     user_query = st.text_input("Ask a question about your PDF:")
+if st.button("Get Answer"):
+        with st.spinner("Processing..."):
+            available_models = [
+                'gemini-1.5-flash',
+                'gemini-1.5-pro',
+                'gemini-2.0-flash'
+            ]
 
-    if st.button("Get Answer"):
-       
-             if st.button("Submit & Process"):
-            with st.spinner("Processing...")
-                available_models = [
-                    'gemini-1.5-flash',
-                    'gemini-1.5-pro',
-                    'gemini-2.0-flash'
-                ]
+            response = None
+            last_error = None
 
-                response = None
-                last_error = None
-
-                for model_name in available_models:
-                    try:
-                        model = genai.GenerativeModel(model_name)
-                        response = model.generate_content(prompt)
-                        if response:
-                            break
-                    except Exception as err:
-                        last_error = err
-                        continue
-
-                if response:
-                    st.write("### Answer:")
-                    st.write(response.text)
-                else:
-                    st.error(f"Models temporarily unavailable: {last_error}")   try:
+            for model_name in available_models:
+                try:
                     model = genai.GenerativeModel(model_name)
                     response = model.generate_content(prompt)
                     if response:
-                        break  # Agar response mil jaye toh loop ruk jaye ga
+                        break
                 except Exception as err:
                     last_error = err
-                    continue  # Agar ek model fail ho toh agla try kare ga
+                    continue
 
             if response:
                 st.write("### Answer:")
                 st.write(response.text)
             else:
                 st.error(f"Models temporarily unavailable: {last_error}")
+   
