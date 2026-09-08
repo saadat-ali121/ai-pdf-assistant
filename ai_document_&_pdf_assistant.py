@@ -26,29 +26,32 @@ if uploaded_file is not None:
 
     user_query = st.text_input("Ask a question about your PDF:")
 if st.button("Get Answer"):
-        with st.spinner("Processing..."):
-            available_models = [
-                'gemini-1.5-flash',
-                'gemini-1.5-pro',
-                'gemini-2.0-flash'
-            ]
+        if not user_query:
+            st.warning("Please enter a question first!")
+        else:
+            with st.spinner("Processing..."):
+                available_models = [
+                    'gemini-1.5-flash',
+                    'gemini-1.5-pro',
+                    'gemini-2.0-flash'
+                ]
 
-            response = None
-            last_error = None
+                response = None
+                last_error = None
 
-            for model_name in available_models:
-                try:
-                    model = genai.GenerativeModel(model_name)
-                    response = model.generate_content(prompt)
-                    if response:
-                        break
-                except Exception as err:
-                    last_error = err
-                    continue
+                for model_name in available_models:
+                    try:
+                        model = genai.GenerativeModel(model_name)
+                        # Here user_query is used instead of undefined prompt
+                        response = model.generate_content(user_query)
+                        if response:
+                            break
+                    except Exception as err:
+                        last_error = err
+                        continue
 
-            if response:
-                st.write("### Answer:")
-                st.write(response.text)
-            else:
-                st.error(f"Models temporarily unavailable: {last_error}")
-   
+                if response:
+                    st.write("### Answer:")
+                    st.write(response.text)
+                else:
+                    st.error(f"Models temporarily unavailable: {last_error}")
