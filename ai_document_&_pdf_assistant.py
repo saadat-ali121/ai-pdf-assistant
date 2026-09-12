@@ -55,12 +55,12 @@ if st.button("Get Answer"):
             {user_query}
             """
 
-            available_models = [
-                'gemini-1.5-flash',
-                'gemini-2.0-flash-exp',
-                'gemini-1.5-pro'
-            ]
-
+           available_models = [
+    'models/gemini-1.5-flash',
+    'models/gemini-1.5-pro',
+    'models/gemini-2.0-flash-exp',
+    'models/gemini-1.5-flash-8b'
+]
             response = None
             last_error = None
 
