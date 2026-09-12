@@ -44,7 +44,6 @@ if st.button("Get Answer"):
         st.warning("Please enter a question first!")
     else:
         with st.spinner("Processing..."):
-            # Context and Query Combination
             full_prompt = f"""
             You are a helpful assistant. Answer the user's question based strictly on the context provided below.
             
@@ -55,12 +54,13 @@ if st.button("Get Answer"):
             {user_query}
             """
 
-           available_models = [
-    'models/gemini-1.5-flash',
-    'models/gemini-1.5-pro',
-    'models/gemini-2.0-flash-exp',
-    'models/gemini-1.5-flash-8b'
-]
+            available_models = [
+                'models/gemini-1.5-flash',
+                'models/gemini-1.5-pro',
+                'models/gemini-2.0-flash-exp',
+                'models/gemini-1.5-flash-8b'
+            ]
+
             response = None
             last_error = None
 
